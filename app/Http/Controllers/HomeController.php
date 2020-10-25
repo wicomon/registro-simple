@@ -23,12 +23,14 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $usuario = auth()->user();
+        $total = auth()->user()->count();
 
         if ($usuario->rol == 'admin') {
-            return view('admin.index');
+            return view('admin.index', compact('total'));
         }
         
-        return view('home');
+        return view('home', compact('total'));
     }
 }

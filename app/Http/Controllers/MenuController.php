@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Menu;
+use App\User;
 use App\Exports\UsersExport;
 use App\Imports\UsersImport;
 use Illuminate\Http\Request;
@@ -10,9 +11,20 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class MenuController extends Controller
 {
-    public function index()
+    public function index(User $user)
     {
-        return redirect('/register');
+        $total = $user->count();
+        
+        if ($total > 1005) {
+            return redirect()->action('MenuController@completo');
+        }else{
+            return redirect('/register');
+        }
+    }
+
+    public function completo()
+    {
+        return view('menu.completo');
     }
 
     public function exportExcel()
